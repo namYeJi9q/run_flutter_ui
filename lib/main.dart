@@ -43,6 +43,16 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'My first flutter App',
+          style: TextStyle(
+              color: Colors.purple[900],
+              fontSize: 20,
+              fontWeight: FontWeight.w400),
+        ),
+        backgroundColor: Colors.transparent,
+      ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           setState(() {

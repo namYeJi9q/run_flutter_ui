@@ -55,9 +55,9 @@ class _PomodorosState extends State<Pomodoros> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: Column(
+    return Container(
+      color: Theme.of(context).colorScheme.background,
+      child: Column(
         children: [
           Flexible(
             flex: 1,
