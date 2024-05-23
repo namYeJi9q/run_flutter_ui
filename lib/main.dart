@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'pages/my_wallet.dart';
 import 'pages/pomodoros.dart';
+import 'widgets/dialog.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
-          backgroundColor: const Color(0xFFE7626C),
+          backgroundColor: const Color(0xfff2b33a),
         ),
         textTheme: const TextTheme(
           displayLarge: TextStyle(
@@ -44,19 +44,28 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'My first flutter App',
           style: TextStyle(
-              color: Colors.purple[900],
-              fontSize: 20,
-              fontWeight: FontWeight.w400),
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+          ),
         ),
         backgroundColor: Colors.transparent,
       ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           setState(() {
-            currentPageIndex = index;
+            if (currentPageIndex == 1) {
+              DialogWidget(
+                text: '탭을 나가면 타이머가 초기화됩니다. 나가시겠습니까?',
+                onPressed: () {
+                  currentPageIndex = index;
+                },
+              );
+            } else {
+              currentPageIndex = index;
+            }
           });
         },
         indicatorColor: Colors.amber,
