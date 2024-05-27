@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/my_wallet.dart';
 import 'pages/pomodoros.dart';
+import 'pages/webtoon_app/home_screen.dart';
 import 'widgets/dialog.dart';
 
 void main() {
@@ -15,9 +16,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(
-          backgroundColor: const Color(0xfff2b33a),
-        ),
         textTheme: const TextTheme(
           displayLarge: TextStyle(
             color: Color(0xFF232B55),
@@ -51,16 +49,24 @@ class _MainPageState extends State<MainPage> {
             fontWeight: FontWeight.w400,
           ),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color(0xfff2b33a),
       ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           setState(() {
             if (currentPageIndex == 1) {
-              DialogWidget(
-                text: '탭을 나가면 타이머가 초기화됩니다. 나가시겠습니까?',
-                onPressed: () {
-                  currentPageIndex = index;
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return DialogWidget(
+                    text: '탭을 나가면 타이머가 초기화됩니다. \n 나가시겠습니까?',
+                    onPressed: () {
+                      setState(() {
+                        currentPageIndex = index;
+                      });
+                      Navigator.of(context).pop();
+                    },
+                  );
                 },
               );
             } else {
@@ -89,6 +95,7 @@ class _MainPageState extends State<MainPage> {
       body: <Widget>[
         const MyWallet(),
         const Pomodoros(),
+        HomeScreen(),
       ][currentPageIndex],
     );
   }
