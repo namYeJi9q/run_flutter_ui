@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/my_wallet.dart';
 import 'pages/pomodoros.dart';
-import 'pages/webtoon_app/home_screen.dart';
+import 'pages/webtoon_app/screens/home_screen.dart';
 import 'widgets/dialog.dart';
 
 void main() {
