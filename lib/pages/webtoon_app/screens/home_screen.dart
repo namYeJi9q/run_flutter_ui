@@ -46,15 +46,13 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import '../../../models/webtoon_model.dart';
 import '../../../services/api_service.dart';
 import '../widgets/webtoon_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   final Future<List<WebtoonModel>> webtoons = Future.delayed(
-    const Duration(seconds: 2),
+    const Duration(seconds: 1),
     () => ApiService.getTodaysTooms(),
   );
 
