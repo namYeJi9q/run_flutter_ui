@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:run_flutter_ui/services/api_service.dart';
-
 import '../../../models/webtoon_detail_model.dart';
 import '../../../models/webtoon_episode_model.dart';
+import '../../../services/api_service.dart';
 
 class DetailScreen extends StatefulWidget {
   final String title, thumb, id;
@@ -44,43 +43,38 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
           ),
         ),
-        body: Column(
-          children: [
-            const SizedBox(
-              height: 50,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Hero(
-                  tag: widget.id,
-                  child: Container(
-                    width: 250,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 12,
-                            offset: const Offset(10, 10),
-                            color: Colors.black.withOpacity(0.3),
-                          ),
-                        ]),
-                    child: Image.network(widget.thumb),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(50),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Hero(
+                    tag: widget.id,
+                    child: Container(
+                      width: 250,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 12,
+                              offset: const Offset(10, 10),
+                              color: Colors.black.withOpacity(0.3),
+                            ),
+                          ]),
+                      child: Image.network(widget.thumb),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 25),
-            FutureBuilder(
-                future: webtoon,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 50,
-                      ),
-                      child: Column(
+                ],
+              ),
+              const SizedBox(height: 25),
+              FutureBuilder(
+                  future: webtoon,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -95,12 +89,54 @@ class _DetailScreenState extends State<DetailScreen> {
                             style: const TextStyle(fontSize: 16),
                           ),
                         ],
-                      ),
+                      );
+                    }
+                    return const Text("...");
+                  }),
+              const SizedBox(
+                height: 20,
+              ),
+              FutureBuilder(
+                future: episodes,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        for (var episode in snapshot.data!)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateColor.resolveWith(
+                                    (states) => Colors.amber.shade100),
+                                shadowColor: MaterialStateColor.resolveWith(
+                                    (states) => Colors.amber.shade300),
+                              ),
+                              onPressed: () {},
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    episode.title,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  const Icon(Icons.chevron_right),
+                                ],
+                              ),
+                            ),
+                          ),
+                      ],
                     );
                   }
-                  return const Text("...");
-                })
-          ],
+                  return Container();
+                },
+              )
+            ],
+          ),
         ));
   }
 }

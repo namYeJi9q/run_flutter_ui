@@ -79,7 +79,7 @@ class HomeScreen extends StatelessWidget {
   ListView makeList(AsyncSnapshot<List<WebtoonModel>> snapshot) {
     return ListView.separated(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       itemCount: snapshot.data!.length,
       itemBuilder: (context, index) {
         var webtoon = snapshot.data![index];
