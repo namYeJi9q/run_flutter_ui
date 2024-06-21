@@ -21,12 +21,19 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   late Future<WebtoonDetailModel> webtoon;
   late Future<List<WebtoonEpisodeModel>> episodes;
+  bool likedToons = false;
 
   @override
   void initState() {
     super.initState();
     webtoon = ApiService.getToonById(widget.id);
     episodes = ApiService.getLatestEpisodesById(widget.id);
+  }
+
+  void onLikeClicked() {
+    setState(() {
+      likedToons = !likedToons;
+    });
   }
 
   @override
@@ -43,6 +50,19 @@ class _DetailScreenState extends State<DetailScreen> {
               fontSize: 20,
             ),
           ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: IconButton(
+                  onPressed: onLikeClicked,
+                  icon: Icon(
+                    likedToons
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_outline,
+                    color: Colors.red,
+                  )),
+            )
+          ],
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(50),
@@ -104,7 +124,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     return Column(
                       children: [
                         for (var episode in snapshot.data!)
-                          Episode(episode: episode),
+                          Episode(episode: episode, webtoonId: widget.id),
                       ],
                     );
                   }
