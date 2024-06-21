@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/webtoon_detail_model.dart';
 import '../../../models/webtoon_episode_model.dart';
 import '../../../services/api_service.dart';
@@ -21,18 +22,43 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   late Future<WebtoonDetailModel> webtoon;
   late Future<List<WebtoonEpisodeModel>> episodes;
-  bool likedToons = false;
+  late SharedPreferences prefs;
+  bool isLiked = false;
+
+  Future initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    final likedToons = prefs.getStringList('likedToons');
+    if (likedToons != null) {
+      if (likedToons.contains(widget.id) == true) {
+        setState(() {
+          isLiked = true;
+        });
+      }
+    } else {
+      await prefs.setStringList('likedToons', []);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     webtoon = ApiService.getToonById(widget.id);
     episodes = ApiService.getLatestEpisodesById(widget.id);
+    initPrefs();
   }
 
-  void onLikeClicked() {
+  onLikeClicked() async {
+    final likedToons = prefs.getStringList('likedToons');
+    if (likedToons != null) {
+      if (isLiked) {
+        likedToons.remove(widget.id);
+      } else {
+        likedToons.add(widget.id);
+      }
+      await prefs.setStringList('likedToons', likedToons);
+    }
     setState(() {
-      likedToons = !likedToons;
+      isLiked = !isLiked;
     });
   }
 
@@ -56,9 +82,7 @@ class _DetailScreenState extends State<DetailScreen> {
               child: IconButton(
                   onPressed: onLikeClicked,
                   icon: Icon(
-                    likedToons
-                        ? Icons.favorite_rounded
-                        : Icons.favorite_outline,
+                    isLiked ? Icons.favorite_rounded : Icons.favorite_outline,
                     color: Colors.red,
                   )),
             )
