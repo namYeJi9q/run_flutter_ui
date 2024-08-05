@@ -29,9 +29,9 @@ class Episode extends StatelessWidget {
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor:
-              MaterialStateColor.resolveWith((states) => Colors.amber.shade100),
+              WidgetStateColor.resolveWith((states) => Colors.amber.shade100),
           shadowColor:
-              MaterialStateColor.resolveWith((states) => Colors.amber.shade300),
+              WidgetStateColor.resolveWith((states) => Colors.amber.shade300),
         ),
         onPressed: onButtonTap,
         child: Row(

@@ -38,9 +38,9 @@ class DialogWidget extends StatelessWidget {
           child: OutlinedButton(
             onPressed: () => Navigator.of(context).pop(),
             style: const ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(Color(0xFF838E9E)),
-              side: MaterialStatePropertyAll(
-                  BorderSide(color: Color(0xFF838E9E))),
+              backgroundColor: WidgetStatePropertyAll(Color(0xFF838E9E)),
+              side:
+                  WidgetStatePropertyAll(BorderSide(color: Color(0xFF838E9E))),
             ),
             child: const Text(
               "취소",
@@ -57,9 +57,9 @@ class DialogWidget extends StatelessWidget {
           child: OutlinedButton(
               onPressed: onPressed,
               style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.white),
-                  side: MaterialStatePropertyAll(
-                      BorderSide(color: Colors.white))),
+                  backgroundColor: WidgetStatePropertyAll(Colors.white),
+                  side:
+                      WidgetStatePropertyAll(BorderSide(color: Colors.white))),
               child: const Text(
                 "확인",
                 style: TextStyle(
